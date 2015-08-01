@@ -2,15 +2,15 @@ from fabric.api import *
 
 def all():
 	make_user()
-	intall_dotfiles()
+	install_dotfiles()
 	root_install_peco()
 	root_install_ag()
 	root_install_vim74()
 	root_install_node()
 
-def make_user():
-	admin_username = 'sairoutine'
+	puts('all done.')
 
+def make_user(admin_username='sairoutine'):
 	with hide('commands'):
  		run('adduser {username}'.format(username=admin_username))
 	 	run('echo "{username} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers'.format(username=admin_username))
@@ -19,9 +19,7 @@ def make_user():
 
 	puts('add {username} done.'.format(username=admin_username))
 
-def install_dotfiles():
-	admin_username = 'sairoutine'
-
+def install_dotfiles(admin_username='sairoutine'):
 	with settings(user=admin_username, warn_only=True):
 		with hide('commands'):
 			run('git clone https://github.com/sairoutine/dotfiles.git')
@@ -76,6 +74,7 @@ def root_install_vim74():
 def root_install_node():
 
 	with hide('commands'):
+		run('yum install -y gcc-c++')
 		run('wget http://nodejs.org/dist/v0.12.2/node-v0.12.2.tar.gz')
  		run('tar xvf node-v0.12.2.tar.gz')
 		with cd('node-v0.12.2'):
