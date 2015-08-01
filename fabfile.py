@@ -22,21 +22,20 @@ def make_user():
 def install_dotfiles():
 	admin_username = 'sairoutine'
 
-	with settings(user=admin_username, warn_only=True).hide('commands'):
-		run('git clone https://github.com/sairoutine/dotfiles.git')
+	with settings(user=admin_username, warn_only=True):
+		with hide('commands'):
+			run('git clone https://github.com/sairoutine/dotfiles.git')
 
-		# TODO:
-		#with cd('./dotfiles'):
-			#run('')
+			with cd('./dotfiles'):
+				run('sh ./dotfilesLink.sh')
 
-		run('mkdir -p ./.vim/bundle/')
-		run('git clone https://github.com/Shougo/neobundle.vim.git ./.vim/bundle/neobundle.vim')
-		run('git clone https://github.com/Shougo/vimproc.vim.git ./.vim/bundle/vimproc.vim')
+			run('git clone https://github.com/Shougo/neobundle.vim.git ./.vim/bundle/neobundle.vim')
+			run('git clone https://github.com/Shougo/vimproc.vim.git ./.vim/bundle/vimproc')
 
-		with cd('./.vim/bundle/vimproc.vim/'):
-			run('make')
+			with cd('./.vim/bundle/vimproc/'):
+				run('make')
 
-	puts('install dotfiles done.')
+		puts('install dotfiles done.')
 
 def root_install_peco():
 
