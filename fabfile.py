@@ -1,3 +1,4 @@
+# coding:utf-8
 from fabric.api import * 
 
 def all():
@@ -6,6 +7,7 @@ def all():
 	root_install_peco()
 	root_install_ag()
 	root_install_vim74()
+	root_install_tmux()
 	root_install_node()
 
 	puts('all done.')
@@ -36,6 +38,8 @@ def install_dotfiles(admin_username='sairoutine'):
 		puts('install dotfiles done.')
 
 def root_install_peco():
+	if env.user != 'root':
+		abort('rootで実行してください')
 
 	with hide('commands'):
 		run('wget https://github.com/peco/peco/releases/download/v0.3.2/peco_linux_amd64.tar.gz')
@@ -48,6 +52,8 @@ def root_install_peco():
 	puts('install peco done.')
 
 def root_install_ag():
+	if env.user != 'root':
+		abort('rootで実行してください')
 
 	with hide('commands'):
 		run('rpm -ivh http://swiftsignal.com/packages/centos/6/x86_64/the-silver-searcher-0.13.1-1.el6.x86_64.rpm')
@@ -55,6 +61,8 @@ def root_install_ag():
 	puts('install ag done.')
 
 def root_install_vim74():
+	if env.user != 'root':
+		abort('rootで実行してください')
 
 	with hide('commands'):
 		# needed by vim7.4
@@ -71,7 +79,51 @@ def root_install_vim74():
 
 	puts('install vim74 done.')
 
+def root_install_tmux():
+	if env.user != 'root':
+		abort('rootで実行してください')
+
+	with hide('commands'):
+		# needed by tmux
+		#run('yum -y groupinstall "Development Tools"')
+		run('yum install -y gcc ncurses-devel')
+
+		# libevent2.0
+		run('curl -L https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz -o libevent-2.0.21-stable.tar.gz')
+		run('tar xzf libevent-2.0.21-stable.tar.gz')
+		with cd('libevent-2.0.21-stable'):
+			run('./configure')
+			run('make')
+			run('make install')
+		# rm
+		run('rm -rf libevent-2.0.21-stable.tar.gz ./libevent-2.0.21-stable')
+
+		# install tmux
+		run('wget http://downloads.sourceforge.net/tmux/tmux-1.9a.tar.gz')
+		run('tar xzf tmux-1.9a.tar.gz')
+		with cd('./tmux-1.9a'):
+			run('./configure CFLAGS="-I/usr/local/include" CPPFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib"')
+			run('make')
+			run('make install')
+		# rm
+		run('rm -rf tmux-1.9a.tar.gz ./tmux-1.9a')
+
+
+	puts('install tmux done.')
+
 def root_install_node():
+	if env.user != 'root':
+		abort('rootで実行してください')
+
+	with hide('commands'):
+		run('yum install -y epel-release')
+		run('yum install -y node npm --enablerepo=epel')
+		run('npm install -g jshint')
+	puts('install node done.')
+
+def root_install_node12():
+	if env.user != 'root':
+		abort('rootで実行してください')
 
 	with hide('commands'):
 		run('yum install -y gcc-c++')
