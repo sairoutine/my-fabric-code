@@ -23,7 +23,7 @@ def make_user(admin_username='sairoutine'):
 
 def install_dotfiles(admin_username='sairoutine'):
 	with settings(user=admin_username, warn_only=True):
-		with hide('commands'):
+		with cd('~/'):
 			run('git clone https://github.com/sairoutine/dotfiles.git')
 
 			with cd('./dotfiles'):
@@ -105,6 +105,7 @@ def root_install_tmux():
 			run('./configure CFLAGS="-I/usr/local/include" CPPFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib"')
 			run('make')
 			run('make install')
+		run('ln -s /usr/local/lib/libevent-2.0.so.5 /usr/lib64/libevent-2.0.so.5')
 		# rm
 		run('rm -rf tmux-1.9a.tar.gz ./tmux-1.9a')
 
@@ -139,3 +140,24 @@ def root_install_node12():
 		run('yum install -y npm --enablerepo=epel')
 		run('npm install -g jshint')
 	puts('install node done.')
+
+def root_install_elixir():
+	if env.user != 'root':
+		abort('rootで実行してください')
+
+	with hide('commands'):
+		run('wget http://www.erlang.org/download/otp_src_17.5.tar.gz')
+		run('tar zxvf otp_src_17.5.tar.gz')
+		with cd('otp_src_17.5'):
+			run('./configure')
+			run('make')
+			run('make install')
+		run('rm -rf otp_src_17.5')
+
+		run('git clone https://github.com/elixir-lang/elixir.git')
+		with cd('./elixir'):
+			run('make')
+			run('make install')
+		run('rm -rf ./elixir')
+	puts('install elixir done.')
+
