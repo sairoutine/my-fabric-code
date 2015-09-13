@@ -160,4 +160,12 @@ def root_install_elixir():
 			run('make install')
 		run('rm -rf ./elixir')
 	puts('install elixir done.')
+def root_install_phoenix():
+	if env.user != 'root':
+		abort('rootで実行してください')
+
+	with hide('commands'):
+		run('mix archive.install https://github.com/phoenixframework/phoenix/releases/download/v0.16.1/phoenix_new-0.16.1.ez')
+
+	puts('install phoenix done.')
 
