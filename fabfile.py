@@ -10,6 +10,7 @@ def all():
 	root_install_vim74()
 	root_install_tmux()
 	root_install_node()
+	root_install_git()
 
 	puts('all done.')
 
@@ -133,6 +134,24 @@ def root_install_node():
 		run('yum install -y node npm --enablerepo=epel')
 		run('npm install -g jshint')
 	puts('install node done.')
+
+def root_install_git():
+	if env.user != 'root':
+		abort('rootで実行してください')
+
+	with hide('commands'):
+		run('yum install -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel')
+
+		run('wget https://www.kernel.org/pub/software/scm/git/git-2.3.3.tar.gz')
+		run('tar xzvf git-2.3.3.tar.gz')
+		with cd('./git-2.3.3'):
+			run('make prefix=/usr/bin all')
+			run('make prefix=/usr/bin install')
+		# rm
+		run('rm -rf git-2.3.3.tar.gz ./git-2.3.3')
+
+	puts('install git done.')
+
 
 def root_install_node12():
 	if env.user != 'root':
