@@ -4,6 +4,7 @@ from fabric.api import *
 def all():
 	make_user()
 	install_dotfiles()
+	root_install_ssh_auth()
 	root_install_peco()
 	root_install_ag()
 	root_install_vim74()
@@ -36,6 +37,15 @@ def install_dotfiles(admin_username='sairoutine'):
 				run('make')
 
 		puts('install dotfiles done.')
+
+def root_install_ssh_auth(admin_user='sairoutine'):
+	if env.user != 'root':
+		abort('rootで実行してください')
+
+	with hide('commands'):
+		run('cp -r ~/.ssh  /home/{username}/'.format(username=admin_user))
+
+	puts('install ssh auth done.')
 
 def root_install_peco():
 	if env.user != 'root':
