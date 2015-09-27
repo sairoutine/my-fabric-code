@@ -145,8 +145,8 @@ def root_install_git():
 		run('wget https://www.kernel.org/pub/software/scm/git/git-2.3.3.tar.gz')
 		run('tar xzvf git-2.3.3.tar.gz')
 		with cd('./git-2.3.3'):
-			run('make prefix=/usr/bin all')
-			run('make prefix=/usr/bin install')
+			run('make prefix=/usr all')
+			run('make prefix=/usr install')
 		# rm
 		run('rm -rf git-2.3.3.tar.gz ./git-2.3.3')
 
