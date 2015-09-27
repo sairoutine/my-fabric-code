@@ -34,6 +34,8 @@ def install_dotfiles(admin_username='sairoutine'):
 			run('git clone https://github.com/Shougo/vimproc.vim.git ./.vim/bundle/vimproc')
 
 			with cd('./.vim/bundle/vimproc/'):
+				# needed by make
+				run('sudo yum install -y gcc ncurses-devel')
 				run('make')
 
 		puts('install dotfiles done.')
