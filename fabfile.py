@@ -2,6 +2,7 @@
 from fabric.api import * 
 
 def all():
+	root_install_git()
 	make_user()
 	install_dotfiles()
 	root_install_ssh_auth()
@@ -10,9 +11,16 @@ def all():
 	root_install_vim74()
 	root_install_tmux()
 	root_install_node()
-	root_install_git()
 
 	puts('all done.')
+
+def add_user(admin_username):
+	make_user(admin_username)
+	install_dotfiles(admin_username)
+	root_install_ssh_auth(admin_username)
+
+	puts('add user done.')
+
 
 def make_user(admin_username='sairoutine'):
 	with hide('commands'):
@@ -25,19 +33,20 @@ def make_user(admin_username='sairoutine'):
 
 def install_dotfiles(admin_username='sairoutine'):
 	with settings(user=admin_username, warn_only=True):
-		with cd('~/'):
-			run('git clone https://github.com/sairoutine/dotfiles.git')
+		with hide('commands'):
+			with cd('~/'):
+				run('git clone https://github.com/sairoutine/dotfiles.git')
 
-			with cd('./dotfiles'):
-				run('sh ./dotfilesLink.sh')
+				with cd('./dotfiles'):
+					run('sh ./dotfilesLink.sh')
 
-			run('git clone https://github.com/Shougo/neobundle.vim.git ./.vim/bundle/neobundle.vim')
-			run('git clone https://github.com/Shougo/vimproc.vim.git ./.vim/bundle/vimproc')
+				run('git clone https://github.com/Shougo/neobundle.vim.git ./.vim/bundle/neobundle.vim')
+				run('git clone https://github.com/Shougo/vimproc.vim.git ./.vim/bundle/vimproc')
 
-			with cd('./.vim/bundle/vimproc/'):
-				# needed by make
-				run('sudo yum install -y gcc ncurses-devel')
-				run('make')
+				with cd('./.vim/bundle/vimproc/'):
+					# needed by make
+					run('sudo yum install -y gcc ncurses-devel')
+					run('make')
 
 		puts('install dotfiles done.')
 
