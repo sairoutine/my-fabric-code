@@ -9,6 +9,7 @@ def all():
 	root_install_peco()
 	root_install_ag()
 	root_install_vim74()
+	root_install_zsh()
 	root_install_tmux()
 	root_install_node()
 
@@ -161,6 +162,22 @@ def root_install_git():
 
 	puts('install git done.')
 
+def root_install_zsh():
+	if env.user != 'root':
+		abort('rootで実行してください')
+
+	with hide('commands'):
+		run('yum install -y gcc-c++')
+		run('wget "http://downloads.sourceforge.net/project/zsh/zsh/5.1.1/zsh-5.1.1.tar.gz"');
+ 		run('tar xvf zsh-5.1.1.tar.gz')
+		with cd('zsh-5.1.1'):
+			run(' ./configure --prefix=/ --enable-multibyte')
+			run('make')
+			run('make install')
+		run('rm zsh-5.1.1.tar.gz')
+		run('rm -rf zsh-5.1.1')
+		run('chsh -s /bin/zsh')
+	puts('install zsh done.')
 
 def root_install_node12():
 	if env.user != 'root':
