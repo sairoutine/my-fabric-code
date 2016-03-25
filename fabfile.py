@@ -7,7 +7,7 @@ def all():
 	install_dotfiles()
 	root_install_ssh_auth()
 	root_install_peco()
-	root_install_ag()
+	root_install_pt()
 	root_install_vim74()
 	root_install_zsh()
 	root_install_tmux()
@@ -65,7 +65,7 @@ def root_install_peco():
 		abort('rootで実行してください')
 
 	with hide('commands'):
-		run('wget https://github.com/peco/peco/releases/download/v0.3.2/peco_linux_amd64.tar.gz')
+		run('wget https://github.com/peco/peco/releases/download/v0.3.5/peco_linux_amd64.tar.gz')
 		run('tar -xzf peco_linux_amd64.tar.gz')
 		run('mv ./peco_linux_amd64/peco /usr/local/bin/')
 
@@ -74,14 +74,21 @@ def root_install_peco():
 
 	puts('install peco done.')
 
-def root_install_ag():
+def root_install_pt():
 	if env.user != 'root':
 		abort('rootで実行してください')
 
 	with hide('commands'):
-		run('rpm -ivh http://swiftsignal.com/packages/centos/6/x86_64/the-silver-searcher-0.13.1-1.el6.x86_64.rpm')
+		run('wget https://github.com/monochromegane/the_platinum_searcher/releases/download/v2.1.1/pt_linux_amd64.tar.gz')
+		run('tar -xzf pt_linux_amd64.tar.gz')
+		run('mv ./pt_linux_amd64/pt /usr/local/bin/')
 
-	puts('install ag done.')
+		# rm
+		run('rm -rf pt_linux_amd64.tar.gz ./pt_linux_amd64')
+
+	puts('install pt done.')
+
+
 
 def root_install_vim74():
 	if env.user != 'root':
