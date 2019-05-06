@@ -65,7 +65,7 @@ def root_install_peco():
 		abort('rootで実行してください')
 
 	with hide('commands'):
-		run('wget https://github.com/peco/peco/releases/download/v0.3.5/peco_linux_amd64.tar.gz')
+		run('wget https://github.com/peco/peco/releases/download/v0.5.3/peco_linux_amd64.tar.gz')
 		run('tar -xzf peco_linux_amd64.tar.gz')
 		run('mv ./peco_linux_amd64/peco /usr/local/bin/')
 
