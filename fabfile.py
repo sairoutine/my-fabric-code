@@ -79,7 +79,7 @@ def root_install_pt():
 		abort('rootで実行してください')
 
 	with hide('commands'):
-		run('wget https://github.com/monochromegane/the_platinum_searcher/releases/download/v2.1.1/pt_linux_amd64.tar.gz')
+		run('wget https://github.com/monochromegane/the_platinum_searcher/releases/download/v2.2.0/pt_linux_amd64.tar.gz')
 		run('tar -xzf pt_linux_amd64.tar.gz')
 		run('mv ./pt_linux_amd64/pt /usr/local/bin/')
 
