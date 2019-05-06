@@ -119,25 +119,25 @@ def root_install_tmux():
 		run('yum install -y gcc ncurses-devel')
 
 		# libevent2.0
-		run('curl -L https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz -o libevent-2.0.21-stable.tar.gz')
-		run('tar xzf libevent-2.0.21-stable.tar.gz')
-		with cd('libevent-2.0.21-stable'):
+		run('curl -LOk https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz')
+		run('tar -xf libevent-2.1.8-stable.tar.gz')
+		with cd('libevent-2.1.8-stable'):
 			run('./configure')
 			run('make')
 			run('make install')
 		# rm
-		run('rm -rf libevent-2.0.21-stable.tar.gz ./libevent-2.0.21-stable')
+		run('rm -rf libevent-2.1.8-stable.tar.gz ./libevent-2.1.8-stable')
 
 		# install tmux
-		run('wget http://downloads.sourceforge.net/tmux/tmux-1.9a.tar.gz')
-		run('tar xzf tmux-1.9a.tar.gz')
-		with cd('./tmux-1.9a'):
+		run('curl -LOk https://github.com/tmux/tmux/releases/download/2.8/tmux-2.8.tar.gz')
+		run('tar xzf tmux-2.8.tar.gz')
+		with cd('./tmux-2.8'):
 			run('./configure CFLAGS="-I/usr/local/include" CPPFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib"')
 			run('make')
 			run('make install')
 		run('ln -s /usr/local/lib/libevent-2.0.so.5 /usr/lib64/libevent-2.0.so.5')
 		# rm
-		run('rm -rf tmux-1.9a.tar.gz ./tmux-1.9a')
+		run('rm -rf tmux-2.8.tar.gz ./tmux-2.8')
 
 
 	puts('install tmux done.')
